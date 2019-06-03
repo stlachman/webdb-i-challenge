@@ -30,7 +30,7 @@ router.get("/:id", validateAccountId, (req, res) => {
   res.status(200).json(req.account);
 });
 
-// UPDATE - PUT /accounts:id
+// UPDATE - PUT /accounts/:id
 router.put("/:id", validateAccountId, (req, res) => {
   const updatedAccount = req.body;
   if (updatedAccount.name || updatedAccount.budget) {
@@ -42,12 +42,22 @@ router.put("/:id", validateAccountId, (req, res) => {
         res.status(500).json({ message: "Error updating account" });
       });
   } else {
-    res
-      .status(400)
-      .json({
-        message: "Please provide an update to either the name or budget field"
-      });
+    res.status(400).json({
+      message: "Please provide an update to either the name or budget field"
+    });
   }
+});
+
+// DELETE - DELETE /accounts/:id
+
+router.delete("/:id", validateAccountId, (req, res) => {
+  Accounts.remove(req.account.id)
+    .then(account => {
+      res.status(204).end();
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Error removing account." });
+    });
 });
 
 function validateAccountId(req, res, next) {
