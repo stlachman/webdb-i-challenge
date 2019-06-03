@@ -1,7 +1,13 @@
-const express = require('express');
+const express = require("express");
 
 const server = express();
 
-// your code here
+const accountRoutes = require("./account/account-routes.js");
+
+server.use("/accounts", accountRoutes);
+
+server.get("/", (req, res) => {
+  res.status(200).send("Databases!");
+});
 
 module.exports = server;
