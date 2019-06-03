@@ -4,6 +4,8 @@ const server = express();
 
 const accountRoutes = require("./account/account-routes.js");
 
+server.use(express.json());
+
 server.use("/accounts", accountRoutes);
 
 server.get("/", (req, res) => {
